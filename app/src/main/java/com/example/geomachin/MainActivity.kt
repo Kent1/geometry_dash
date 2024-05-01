@@ -1,47 +1,51 @@
 package com.example.geomachin
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.example.geomachin.ui.theme.GeomachinTheme
+import android.widget.FrameLayout
+import android.app.Activity
+import android.content.res.Resources
 
-class MainActivity : ComponentActivity() {
+class MainActivity : Activity() {
+
+    private lateinit var gameLoop: GameLoop
+    private lateinit var playerView: PlayerView
+    private lateinit var player: Player
+    private val obstacleViews = mutableListOf<ObstacleView>()
+    private lateinit var game: Game
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            GeomachinTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                            name = "Android",
-                            modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
+        setContentView(R.layout.activity_main)
+
+        // Create Player object
+        player = Player(50f, 150f, 1f)
+        //player = Player(Resources.getSystem().getDisplayMetrics().widthPixels, 300) // Pass screen dimensions
+
+        // Create PlayerView
+        playerView = PlayerView(this, player)
+
+        game = Game(10000, 200)
+
+        // Add PlayerView to layout
+        val container = findViewById<FrameLayout>(R.id.container)
+        container.addView(playerView)
+
+        // Create and add obstacle views
+        for (obstacle in game.getObstacles()) {
+            val obstacleView = ObstacleView(this, obstacle)
+            val layoutParams = FrameLayout.LayoutParams(
+                FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT
+            )
+            layoutParams.leftMargin = obstacle.positionX.toInt()
+            layoutParams.topMargin = obstacle.positionY.toInt()
+            container.addView(obstacleView, layoutParams)
+            obstacleViews.add(obstacleView)
         }
-    }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-            text = "Hello $name!",
-            modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    GeomachinTheme {
-        Greeting("Android")
+        // Create and start GameLoop
+        gameLoop = GameLoop(game, player, playerView, obstacleViews)
+        gameLoop.setRunning(true)
+        gameLoop.start()
     }
 }
