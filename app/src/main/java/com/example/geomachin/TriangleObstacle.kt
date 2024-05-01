@@ -9,19 +9,15 @@ import kotlin.math.abs
 
 class TriangleObstacle(override var positionX: Float, override val positionY: Float) : Obstacle {
 
-    companion object {
-        const val SIZE = 50f
-    }
-
     override fun draw(canvas: Canvas) {
         val paint = Paint()
         paint.color = Color.BLUE
 
         val path = Path()
-        path.moveTo(positionX + SIZE / 2, positionY) // Top
-        path.lineTo(positionX, positionY + SIZE) // Bottom-left
-        path.lineTo(positionX + SIZE, positionY + SIZE) // Bottom-right
-        path.lineTo(positionX + SIZE / 2, positionY) // Back to Top
+        path.moveTo(positionX + size() / 2, positionY) // Top
+        path.lineTo(positionX, positionY + size()) // Bottom-left
+        path.lineTo(positionX + size(), positionY + size()) // Bottom-right
+        path.lineTo(positionX + size() / 2, positionY) // Back to Top
 
         path.close()
 
@@ -37,9 +33,9 @@ class TriangleObstacle(override var positionX: Float, override val positionY: Fl
         val playerPosition = PointF(player.positionX + Player.WIDTH / 2, player.positionY + Player.HEIGHT / 2)
 
         // Define vertices of the triangle
-        val v1 = PointF(positionX, positionY + SIZE) // Bottom-left
-        val v2 = PointF(positionX + SIZE, positionY + SIZE) // Bottom-right
-        val v3 = PointF(positionX + SIZE / 2, positionY) // Top
+        val v1 = PointF(positionX, positionY + size()) // Bottom-left
+        val v2 = PointF(positionX + size(), positionY + size()) // Bottom-right
+        val v3 = PointF(positionX + size() / 2, positionY) // Top
 
         // Calculate areas of the three triangles formed by the player position and each triangle vertex
         val totalArea = triangleArea(v1, v2, v3)

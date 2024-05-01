@@ -1,7 +1,5 @@
 package com.example.geomachin
 
-import android.view.View
-
 // Player.kt
 class Player(
     var positionX: Float,
@@ -9,7 +7,6 @@ class Player(
     var speed: Float,
     var isJumping: Boolean = false,
     var isFalling: Boolean = false,
-    var view: View? = null,
     ) {
 
     fun update() {
@@ -17,16 +14,16 @@ class Player(
 //        positionX += speed
         // Add gravity if jumping
         if (isJumping) {
-            positionY += JUMP_FORCE
-            if (positionY >= JUMP_HEIGHT) {
-                positionY = JUMP_HEIGHT
+            positionY -= JUMP_FORCE
+            if (positionY <= 0) {
+                positionY = 0f
                 isJumping = false
                 isFalling = true
             }
         } else if (isFalling) {
-            positionY -= GRAVITY
-            if (positionY <= 0) {
-                positionY = 0f
+            positionY += GRAVITY
+            if (positionY >= JUMP_HEIGHT) {
+                positionY = JUMP_HEIGHT
                 isJumping = false
                 isFalling = false
             }
@@ -37,8 +34,7 @@ class Player(
         // Make the player jump
         if (!isJumping and !isFalling) {
             isJumping = true
-            positionY += JUMP_FORCE
-            view?.invalidate() // Redraw player view
+            positionY -= JUMP_FORCE
         }
     }
 
@@ -47,6 +43,6 @@ class Player(
         const val HEIGHT = 150
         const val GRAVITY = 10f
         const val JUMP_FORCE = 50f
-        const val JUMP_HEIGHT = 200f
+        const val JUMP_HEIGHT = 400f
     }
 }

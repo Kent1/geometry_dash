@@ -17,14 +17,10 @@ class MainActivity : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Create Player object
-        player = Player(50f, 150f, 1f)
-        //player = Player(Resources.getSystem().getDisplayMetrics().widthPixels, 300) // Pass screen dimensions
+        game = Game(10000, 400)
 
         // Create PlayerView
-        playerView = PlayerView(this, player)
-
-        game = Game(10000, 200)
+        playerView = PlayerView(this, game.getPlayer())
 
         // Add PlayerView to layout
         val container = findViewById<FrameLayout>(R.id.container)
@@ -38,7 +34,7 @@ class MainActivity : Activity() {
         }
 
         // Create and start GameLoop
-        gameLoop = GameLoop(game, player, playerView, obstacleViews)
+        gameLoop = GameLoop(game, playerView, obstacleViews)
         gameLoop.setRunning(true)
         gameLoop.start()
     }

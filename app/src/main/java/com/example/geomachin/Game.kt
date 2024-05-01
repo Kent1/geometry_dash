@@ -5,7 +5,7 @@ import android.graphics.RectF
 import java.util.*
 
 class Game(private val screenWidth: Int, private val screenHeight: Int) {
-    private val player: Player = Player(50f, screenHeight.toFloat(), 1f) // Initial player position
+    private val player: Player = Player(50f, screenHeight.toFloat(), 3f) // Initial player position
     private val obstacles: MutableList<Obstacle> = mutableListOf()
 
     init {

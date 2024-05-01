@@ -1,6 +1,9 @@
 package com.example.geomachin
 
-class GameLoop(private val game: Game, private val player: Player, private val playerView: PlayerView, private val obstacleViews: List<ObstacleView>) : Thread() {
+class GameLoop(
+    private val game: Game,
+    private val playerView: PlayerView,
+    private val obstacleViews: List<ObstacleView>) : Thread() {
 
     private var running = false
     private val targetFPS = 60
@@ -18,7 +21,7 @@ class GameLoop(private val game: Game, private val player: Player, private val p
         while (running) {
             startTime = System.nanoTime()
 
-            synchronized(player) {
+            synchronized(playerView) {
                 game.update()
                 playerView.postInvalidate() // Redraw the player view on UI thread
                 obstacleViews.forEach { it.postInvalidate() } // Redraw all obstacle views on UI thread
