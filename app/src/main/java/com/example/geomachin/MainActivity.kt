@@ -33,13 +33,7 @@ class MainActivity : Activity() {
         // Create and add obstacle views
         for (obstacle in game.getObstacles()) {
             val obstacleView = ObstacleView(this, obstacle)
-            val layoutParams = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            )
-            layoutParams.leftMargin = obstacle.positionX.toInt()
-            layoutParams.topMargin = obstacle.positionY.toInt()
-            container.addView(obstacleView, layoutParams)
+            container.addView(obstacleView)
             obstacleViews.add(obstacleView)
         }
 

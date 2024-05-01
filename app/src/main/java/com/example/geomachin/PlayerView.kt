@@ -9,7 +9,6 @@ import android.view.View
 class PlayerView(context: Context, private val player: Player) : View(context) {
 
     private val paint: Paint = Paint()
-    var canvas: Canvas? = null // Expose Canvas
 
     init {
         paint.color = Color.RED // Set player color
@@ -17,7 +16,6 @@ class PlayerView(context: Context, private val player: Player) : View(context) {
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-        this.canvas = canvas // Assign canvas to the property
         canvas.apply {
             // Draw the player square within the container
             drawRect(
